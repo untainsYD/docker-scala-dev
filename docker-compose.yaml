@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  scala:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:80"
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "../../src/scala:/home/www/dev/src/scala"
+      - "./www:/var/www"
+    depends_on:
+      - mariadb
+      - postgres
+      - redis
+
+  mariadb:
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  mariadb-data:
+  postgres-data:
+  redis-data:
