@@ -38,7 +38,7 @@ RUN echo $HOME > /tmp/user \
     && source "$HOME/.sdkman/bin/sdkman-init.sh" \
     && curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs \
     && chmod +x cs && ./cs setup --yes && rm -rf cs \
-    && yes | cs update && yes | cs setup --jvm 11 && cs java --jvm 11 --env \
+    && yes | cs update && yes | cs java --jvm 11 && cs java --jvm 17 && eval "$(cs java --jvm 17 --env)" \
     && scala-cli install completions --shell bash
 
 # Set the default command to keep the container running
